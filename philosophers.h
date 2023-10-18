@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:28:27 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/08 16:47:12 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:34:57 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 //-----------------------------MANDATORY_PARSSING--------------------------//
 int				ft_error(int argc, char **argv);
-int 			ft_isdigit(char c);
+int				ft_isdigit(char c);
 long			ft_atoi(const char *str);
 int				ft_errors(int ac, char **av);
 char			*ft_trance(int ac, char **av);
@@ -35,5 +35,8 @@ void			*ft_memmove(void *dst, const void *src, size_t len);
 char			*ft_strjoin(char *s1, char const *s2);
 size_t			ft_strlen(const char *str);
 int				ft_nbr_arg(char **av);
+//------------------------------MANDATORY---------------------------------//
+void ft_philo();
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:36:38 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/08 16:45:31 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:03:04 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,13 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-int     ft_nbr_arg(char **av)
+int	ft_nbr_arg(char **av)
 {
-    int i;
+	int	i;
 
-    i = 0;
-
-    while (av[i])
-        i++;
-    i++;
-    return (i);
+	i = 0;
+	while (av[i])
+		i++;
+	i++;
+	return (i);
 }

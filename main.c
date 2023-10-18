@@ -6,15 +6,15 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:27:53 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/08 17:14:44 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:05:52 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int ft_isdigit(char c)
+int	ft_isdigit(char c)
 {
-	return(c >= '0' && c <= '9');
+	return (c >= '0' && c <= '9');
 }
 
 int	ft_error(int argc, char **argv)
@@ -87,13 +87,11 @@ int	ft_errors(int ac, char **av)
 	return (0);
 }
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
-	int		i;
 	char	*string;
 	char	**arrtwo;
 
-	i = 0;
 	if (ft_error(ac, av) == 0 || ft_errors(ac, av) == 1)
 		return (write(2, "Error\n", 6), 1);
 	string = ft_trance(ac, av);
@@ -105,16 +103,9 @@ int main (int ac, char **av)
 		write(2, "Error\n", 6);
 		exit(1);
 	}
-	if (ft_nbr_arg(arrtwo) == 5 || ft_nbr_arg(arrtwo) == 6)
-	{
-		while (arrtwo[i])
-		{
-			printf("%ld ", ft_atoi(arrtwo[i]));
-			i++;
-		}
-		printf("\n");
-	}
-	else
+	if (!(ft_nbr_arg(arrtwo) == 5 || ft_nbr_arg(arrtwo) == 6))
 		printf("the number of args is fauls !!\n");
+	else
+		ft_philo();
 	return (0);
 }

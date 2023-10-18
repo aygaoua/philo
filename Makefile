@@ -6,7 +6,7 @@
 #    By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 16:01:19 by azgaoua           #+#    #+#              #
-#    Updated: 2023/10/09 14:26:15 by azgaoua          ###   ########.fr        #
+#    Updated: 2023/10/18 19:55:12 by azgaoua          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ FLGS = -Wall -Wextra -Werror
 all :  $(NAME)
 
 %.o: %.c philosophers.h
-	@$(CC) $(FLGS) -c $< -o $@
+	$(CC) $(FLGS) -c $< -o $@
 
 $(NAME) :  $(OBJS)
 	@echo "------>making the PHILO<------"
@@ -47,11 +47,11 @@ bonus :  $(BNS_NAME)
 #	@echo "----->FDF_BONUS Done<-----"
 
 clean:
-	@echo " clean all this FILES if exist: $(OBJS)"
+	@echo " clean all the *.o FILES"
 	@$(RM) $(OBJS)
 
 fclean:  clean
-	@echo "+ that --> $(NAME)"
+	@echo " clean --> $(NAME)"
 	@$(RM) $(NAME)
 
 re: fclean all

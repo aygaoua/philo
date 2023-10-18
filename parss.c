@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:24:28 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/08 16:48:22 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/18 20:36:23 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,9 @@ long	ft_max(char **av)
 		j++;
 	}
 	return (1);
+}
+
+void ft_philo(char *a, char *b, char *c, char *d)
+{
+	
 }
