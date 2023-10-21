@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 16:09:51 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 03:19:46 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/21 21:14:38 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,15 @@ void	ft_lstadd_back(t_philos **lst, t_philos *new)
 		last -> next = new;
 	}
 }
+
 void	*ft_routine(void *lst)
 {
-	t_philos *group;
+	t_philos	*group;
 
 	group = (t_philos *)lst;
 	if (group->id % 2)
-		ft_eat(group);
-	while(1)
+		usleep(group->args->t_eat * 1000);
+	while (0 == 0)
 	{
 		pthread_mutex_lock(&group->fork);
 		ft_print(group, "has taken a fork");
@@ -59,38 +60,31 @@ void	*ft_routine(void *lst)
 		ft_print(group, "has taken a fork");
 		ft_print(group, "is eating");
 		pthread_mutex_lock(&group->args->mtx_vars1);
-    	group->last_eat = get_time_in_ms();
-    	pthread_mutex_unlock(&group->args->mtx_vars1);
+		group->last_eat = get_time_in_ms();
+		pthread_mutex_unlock(&group->args->mtx_vars1);
 		ft_eat(group);
 		pthread_mutex_lock(&group->args->mtx_vars2);
-		group->philo_done++;
-		if (group->philo_done == group->args->nbr_eats)
-		{
-			pthread_mutex_lock(&group->args->mtx_flag);
-			group->args->flag++;
-			pthread_mutex_unlock(&group->args->mtx_flag);
-		}
+		ft_check_and_unlock(&group);
 		pthread_mutex_unlock(&group->args->mtx_vars2);
-		pthread_mutex_unlock(&group->fork);
-		pthread_mutex_unlock(&group->next->fork);
 		ft_print(group, "is sleeping");
 		ft_sleep(group);
 		ft_print(group, "is thinking");
+		usleep(100);
 	}
 	return (NULL);
 }
 
-unsigned long long get_time_in_ms() 
+unsigned long long	get_time_in_ms(void)
 {
-    struct timeval current_time;
-	unsigned long long elapsed_time;
-	
-    gettimeofday(&current_time, NULL);
+	struct timeval		current_time;
+	unsigned long long	elapsed_time;
+
+	gettimeofday(&current_time, NULL);
 	elapsed_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
-    return (elapsed_time);
+	return (elapsed_time);
 }
 
-void	ft_init_args(t_args **args,int ac, char **av)
+void	ft_init_args(t_args **args, int ac, char **av)
 {
 	(*args)->nbr_of_philos = (int )ft_atoi(av[0]);
 	(*args)->t_die = (int )ft_atoi(av[1]);
@@ -102,4 +96,8 @@ void	ft_init_args(t_args **args,int ac, char **av)
 		(*args)->nbr_eats = -1;
 	(*args)->flag = 0;
 	(*args)->tita0 = get_time_in_ms();
+	pthread_mutex_init(&(*args)->mtx_print, NULL);
+	pthread_mutex_init(&(*args)->mtx_vars1, NULL);
+	pthread_mutex_init(&(*args)->mtx_vars2, NULL);
+	pthread_mutex_init(&(*args)->mtx_flag, NULL);
 }

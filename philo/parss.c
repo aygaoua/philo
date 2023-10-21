@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:24:28 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 03:19:29 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/21 21:54:38 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ long	ft_max(char **av)
 	return (1);
 }
 
-void ft_philo(t_philos **group,t_args *args)
+void	ft_philo(t_philos **group, t_args *args)
 {
-	int i;
-	t_philos *copy;
+	int			i;
+	t_philos	*copy;
 
 	i = 1;
 	while (i <= args->nbr_of_philos)
@@ -55,30 +55,19 @@ void	ft_die_check(t_philos *group)
 	while (group)
 	{
 		pthread_mutex_lock(&group->args->mtx_vars1);
-		if (get_time_in_ms() - group->last_eat > (unsigned long long )group->args->t_die)
+		if (get_time_in_ms() - group->last_eat > \
+			(unsigned long long )group->args->t_die)
 		{
 			ft_print_exit(group);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&group->args->mtx_vars1);
 		pthread_mutex_lock(&group->args->mtx_vars2);
-		if (group->args->nbr_eats != -1 || group->args->nbr_eats == 0)
-		{
-			pthread_mutex_lock(&group->args->mtx_flag);
-			if (group->args->flag == group->args->nbr_of_philos)
-			{
-				pthread_mutex_lock(&group->args->mtx_print);
-				break;
-			}
-			else if (group->args->nbr_eats == 0)
-			{
-				pthread_mutex_lock(&group->args->mtx_print);
-				break;
-			}
-			pthread_mutex_unlock(&group->args->mtx_flag);
-		}
+		if (ft_last_arg(group))
+			break ;
 		pthread_mutex_unlock(&group->args->mtx_vars2);
 		group = group->next;
+		usleep(100);
 	}
 	pthread_mutex_destroy(&group->args->mtx_vars1);
 	pthread_mutex_destroy(&group->args->mtx_print);
@@ -90,8 +79,28 @@ void	ft_die_check(t_philos *group)
 	}
 }
 
-void ft_print_exit(t_philos *group)
+void	ft_print_exit(t_philos *group)
 {
 	pthread_mutex_lock(&group->args->mtx_print);
 	printf("%lld %d died\n", get_time_in_ms() - group->args->tita0, group->id);
+}
+
+int	ft_last_arg(t_philos *group)
+{
+	if (group->args->nbr_eats != -1 || group->args->nbr_eats == 0)
+	{
+		pthread_mutex_lock(&group->args->mtx_flag);
+		if (group->args->flag == group->args->nbr_of_philos)
+		{
+			pthread_mutex_lock(&group->args->mtx_print);
+			return (1);
+		}
+		else if (group->args->nbr_eats == 0)
+		{
+			pthread_mutex_lock(&group->args->mtx_print);
+			return (1);
+		}
+		pthread_mutex_unlock(&group->args->mtx_flag);
+	}
+	return (0);
 }
