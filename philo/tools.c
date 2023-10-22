@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 16:09:51 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 06:50:39 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 16:10:30 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*ft_routine(void *lst)
 
 	group = (t_philos *)lst;
 	if (group->id % 2 == 0)
-		usleep(group->args->t_eat * 995);
+		usleep(group->args->t_eat * 1000);
 	while (0 == 0)
 	{
 		pthread_mutex_lock(&group->fork);
@@ -60,12 +60,12 @@ void	*ft_routine(void *lst)
 		ft_print(group, "has taken a fork");
 		ft_print(group, "is eating");
 		ft_update_last_eat(&group);
-		usleep((unsigned long long )group->args->t_eat * 995);
+		ft_eat(group);
 		pthread_mutex_lock(&group->args->mtx_vars2);
 		ft_check(&group);
 		pthread_mutex_unlock(&group->args->mtx_vars2);
 		ft_print(group, "is sleeping");
-		usleep((unsigned long long )group->args->t_sleep * 995);
+		ft_sleep(group);
 		ft_print(group, "is thinking");
 		usleep(100);
 	}
