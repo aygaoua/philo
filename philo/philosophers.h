@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:28:27 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 21:13:41 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 06:45:57 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,12 @@ size_t				lignes(const char *s, char c);
 void				ft_philo(t_philos **group, t_args *args);
 void				ft_lstadd_back(t_philos **lst, t_philos *new);
 void				*ft_routine(void *lst);
-void				ft_eat(t_philos *group);
-void				ft_sleep(t_philos *group);
 void				ft_print(t_philos *group, char *s);
 void				ft_print_exit(t_philos *group);
 void				ft_die_check(t_philos *group);
 void				ft_init_args(t_args **args, int ac, char **av);
-void				ft_check_and_unlock(t_philos **group);
+void				ft_check(t_philos **group);
+void				ft_update_last_eat(t_philos **group);
 int					ft_last_arg(t_philos *group);
 t_philos			*ft_lstnew(long value, t_args *args);
 unsigned long long	get_time_in_ms(void);

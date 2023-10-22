@@ -6,7 +6,7 @@
 #    By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 16:01:19 by azgaoua           #+#    #+#              #
-#    Updated: 2023/10/21 22:04:27 by azgaoua          ###   ########.fr        #
+#    Updated: 2023/10/22 05:50:43 by azgaoua          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,16 @@ FLGS = -Wall -Wextra -Werror
 all :  $(NAME)
 
 %.o: %.c philosophers.h
-	$(CC) $(FLGS) -c $< -o $@
+	@$(CC) $(FLGS) -c $< -o $@
 
 $(NAME) :  $(OBJS)
+	@echo " _____ _   _ _                 _        \n\
+	|  _  | |_|_| |___ ___ ___ ___| |_ ___ ___ ___  \n\
+	|   __|   | | | . |_ -| . | . |   | -_|  _|_ -|  \n\
+	|__|  |_|_|_|_|___|___|___|  _|_|_|___|_| |___|   \n\
+	                      	  |_|                      \n"
 	@echo "------>making the PHILO<------"
-	$(CC) $(FLGS) $(OBJS) -o $(NAME) -lpthread
+	$(CC) $(FLGS) $(OBJS) -o $(NAME)
 	@echo "--------->PHILO Done<---------"
 
 bonus :  $(BNS_NAME)

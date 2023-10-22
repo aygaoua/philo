@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:27:53 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 22:15:12 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 05:34:48 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,22 @@ int	main(int ac, char **av)
 	t_philos	*group;
 	t_args		*args;
 
+	args = NULL;
+	group = NULL;
 	if (ft_error(ac, av) == 0 || ft_max(++av) == 4294967296)
 		return (write(2, "Error\n", 6), 1);
 	args = (t_args *)malloc(sizeof(t_args));
 	if (!args)
 		return (0);
-	if (!(ac - 1 == 4 || ac - 1 == 5))
-		return (free(args), printf("please enter 4 or 5 args!!\n"), 0);
-	else
+	if (ac - 1 == 4 || ac - 1 == 5)
 	{
 		ft_init_args(&args, ac, av);
 		if (args->nbr_of_philos == 0 || args->nbr_of_philos >= 250)
-			return (printf("nbr of philos is not supported!!\n"), \
+			return (printf("the number of philos is not supported!!\n"), \
 					free(args), 0);
 		ft_philo(&group, args);
 	}
+	else
+		return (free(args), printf("please enter 4 or 5 args!!\n"), 0);
 	return (0);
 }

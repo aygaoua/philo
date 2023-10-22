@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:24:28 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 21:54:38 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 06:43:55 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_die_check(t_philos *group)
 	while (group)
 	{
 		pthread_mutex_lock(&group->args->mtx_vars1);
-		if (get_time_in_ms() - group->last_eat > \
+		if (get_time_in_ms() - group->last_eat >= \
 			(unsigned long long )group->args->t_die)
 		{
 			ft_print_exit(group);

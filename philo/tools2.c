@@ -6,21 +6,11 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:45:48 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/21 21:35:01 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 06:50:21 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	ft_eat(t_philos *group)
-{
-	usleep((unsigned long long )group->args->t_eat * 994);
-}
-
-void	ft_sleep(t_philos *group)
-{
-	usleep((unsigned long long )group->args->t_sleep * 994);
-}
 
 void	ft_print(t_philos *group, char *s)
 {
@@ -29,8 +19,10 @@ void	ft_print(t_philos *group, char *s)
 	pthread_mutex_unlock(&group->args->mtx_print);
 }
 
-void	ft_check_and_unlock(t_philos **group)
+void	ft_check(t_philos **group)
 {
+	pthread_mutex_unlock(&(*group)->fork);
+	pthread_mutex_unlock(&(*group)->next->fork);
 	(*group)->philo_done++;
 	if ((*group)->philo_done == (*group)->args->nbr_eats)
 	{
@@ -38,6 +30,11 @@ void	ft_check_and_unlock(t_philos **group)
 		(*group)->args->flag++;
 		pthread_mutex_unlock(&(*group)->args->mtx_flag);
 	}
-	pthread_mutex_unlock(&(*group)->fork);
-	pthread_mutex_unlock(&(*group)->next->fork);
+}
+
+void	ft_update_last_eat(t_philos **group)
+{
+	pthread_mutex_lock(&(*group)->args->mtx_vars1);
+	(*group)->last_eat = get_time_in_ms();
+	pthread_mutex_unlock(&(*group)->args->mtx_vars1);
 }
