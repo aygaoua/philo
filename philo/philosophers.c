@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:27:53 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 05:34:48 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 22:15:52 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ long	ft_atoi(const char *str)
 {
 	int		i;
 	long	retu;
-	int		s;
 
-	s = 1;
 	i = 0;
 	retu = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
@@ -64,13 +62,13 @@ long	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9' && str[i] != '\0')
 	{
 		retu = (retu * 10) + str[i] - 48;
-		if (retu * s > 2147483647)
+		if (retu > 2147483647)
 			return (4294967296);
-		else if (retu * s < -2147483648)
+		else if (retu < -2147483648)
 			return (4294967296);
 		i++;
 	}
-	return ((int )(retu * s));
+	return (retu);
 }
 
 int	main(int ac, char **av)
@@ -80,13 +78,13 @@ int	main(int ac, char **av)
 
 	args = NULL;
 	group = NULL;
-	if (ft_error(ac, av) == 0 || ft_max(++av) == 4294967296)
-		return (write(2, "Error\n", 6), 1);
-	args = (t_args *)malloc(sizeof(t_args));
-	if (!args)
-		return (0);
 	if (ac - 1 == 4 || ac - 1 == 5)
 	{
+		if (ft_error(ac, av) == 0 || ft_max(++av) == 4294967296)
+			return (write(2, "Error\n", 6), 1);
+		args = (t_args *)malloc(sizeof(t_args));
+		if (!args)
+			return (0);
 		ft_init_args(&args, ac, av);
 		if (args->nbr_of_philos == 0 || args->nbr_of_philos >= 250)
 			return (printf("the number of philos is not supported!!\n"), \
@@ -94,6 +92,6 @@ int	main(int ac, char **av)
 		ft_philo(&group, args);
 	}
 	else
-		return (free(args), printf("please enter 4 or 5 args!!\n"), 0);
+		return (printf("please enter 4 or 5 args!!\n"), 0);
 	return (0);
 }

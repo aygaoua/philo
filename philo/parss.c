@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/08 16:24:28 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 15:57:20 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/23 00:05:19 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,21 @@ void	ft_die_check(t_philos *group)
 {
 	while (group)
 	{
-		pthread_mutex_lock(&group->args->mtx_vars1);
+		pthread_mutex_lock(&group->args->mtx_last_eat);
 		if (get_time_in_ms() - group->last_eat >= \
 			(unsigned long long )group->args->t_die)
 		{
 			ft_print_exit(group);
 			break ;
 		}
-		pthread_mutex_unlock(&group->args->mtx_vars1);
-		pthread_mutex_lock(&group->args->mtx_vars2);
+		pthread_mutex_unlock(&group->args->mtx_last_eat);
+		pthread_mutex_lock(&group->args->mtx_philo_done);
 		if (ft_last_arg(group))
 			break ;
-		pthread_mutex_unlock(&group->args->mtx_vars2);
+		pthread_mutex_unlock(&group->args->mtx_philo_done);
 		group = group->next;
-		usleep(100);
 	}
-	pthread_mutex_destroy(&group->args->mtx_vars1);
+	pthread_mutex_destroy(&group->args->mtx_last_eat);
 	pthread_mutex_destroy(&group->args->mtx_print);
 	pthread_mutex_destroy(&group->args->mtx_flag);
 	while (group->args->nbr_of_philos-- > 0)
@@ -87,7 +86,7 @@ void	ft_print_exit(t_philos *group)
 
 int	ft_last_arg(t_philos *group)
 {
-	if (group->args->nbr_eats != -1 || group->args->nbr_eats == 0)
+	if (group->args->nbr_eats != -1)
 	{
 		pthread_mutex_lock(&group->args->mtx_flag);
 		if (group->args->flag == group->args->nbr_of_philos)
@@ -95,12 +94,12 @@ int	ft_last_arg(t_philos *group)
 			pthread_mutex_lock(&group->args->mtx_print);
 			return (1);
 		}
-		else if (group->args->nbr_eats == 0)
-		{
-			pthread_mutex_lock(&group->args->mtx_print);
-			return (1);
-		}
 		pthread_mutex_unlock(&group->args->mtx_flag);
+	}
+	if (group->args->nbr_eats == 0)
+	{
+		pthread_mutex_lock(&group->args->mtx_print);
+		return (1);
 	}
 	return (0);
 }

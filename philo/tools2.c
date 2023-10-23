@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:45:48 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 17:42:23 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/23 00:47:22 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_sleep(t_philos *group)
 	unsigned long long	deff;
 
 	deff = get_time_in_ms();
-	while (get_time_in_ms() - deff <= (unsigned long long )group->args->t_sleep * 0.99)
+	while (get_time_in_ms() - deff <= (unsigned long long )group->args->t_sleep)
 	{
 		usleep(100);
 	}
@@ -43,20 +43,21 @@ void	ft_print(t_philos *group, char *s)
 
 void	ft_check(t_philos **group)
 {
-	pthread_mutex_unlock(&(*group)->fork);
-	pthread_mutex_unlock(&(*group)->next->fork);
-	(*group)->philo_done++;
-	if ((*group)->philo_done == (*group)->args->nbr_eats)
+	if ((*group)->args->nbr_eats != -1)
 	{
-		pthread_mutex_lock(&(*group)->args->mtx_flag);
-		(*group)->args->flag++;
-		pthread_mutex_unlock(&(*group)->args->mtx_flag);
+		(*group)->philo_done++;
+		if ((*group)->philo_done == (*group)->args->nbr_eats)
+		{
+			pthread_mutex_lock(&(*group)->args->mtx_flag);
+			(*group)->args->flag++;
+			pthread_mutex_unlock(&(*group)->args->mtx_flag);
+		}
 	}
 }
 
 void	ft_update_last_eat(t_philos **group)
 {
-	pthread_mutex_lock(&(*group)->args->mtx_vars1);
+	pthread_mutex_lock(&(*group)->args->mtx_last_eat);
 	(*group)->last_eat = get_time_in_ms();
-	pthread_mutex_unlock(&(*group)->args->mtx_vars1);
+	pthread_mutex_unlock(&(*group)->args->mtx_last_eat);
 }

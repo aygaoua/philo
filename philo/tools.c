@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 16:09:51 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 16:10:30 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/23 00:38:59 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,21 @@ void	*ft_routine(void *lst)
 		usleep(group->args->t_eat * 1000);
 	while (0 == 0)
 	{
+		ft_print(group, "has taken a fork");
 		pthread_mutex_lock(&group->fork);
 		ft_print(group, "has taken a fork");
 		pthread_mutex_lock(&group->next->fork);
-		ft_print(group, "has taken a fork");
 		ft_print(group, "is eating");
 		ft_update_last_eat(&group);
 		ft_eat(group);
-		pthread_mutex_lock(&group->args->mtx_vars2);
+		pthread_mutex_unlock(&group->fork);
+		pthread_mutex_unlock(&group->next->fork);
+		pthread_mutex_lock(&group->args->mtx_philo_done);
 		ft_check(&group);
-		pthread_mutex_unlock(&group->args->mtx_vars2);
+		pthread_mutex_unlock(&group->args->mtx_philo_done);
 		ft_print(group, "is sleeping");
 		ft_sleep(group);
 		ft_print(group, "is thinking");
-		usleep(100);
 	}
 	return (NULL);
 }
@@ -75,11 +76,11 @@ void	*ft_routine(void *lst)
 unsigned long long	get_time_in_ms(void)
 {
 	struct timeval		current_time;
-	unsigned long long	elapsed_time;
+	unsigned long long	time;
 
 	gettimeofday(&current_time, NULL);
-	elapsed_time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
-	return (elapsed_time);
+	time = (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
+	return (time);
 }
 
 void	ft_init_args(t_args **args, int ac, char **av)
@@ -95,7 +96,7 @@ void	ft_init_args(t_args **args, int ac, char **av)
 	(*args)->flag = 0;
 	(*args)->tita0 = get_time_in_ms();
 	pthread_mutex_init(&(*args)->mtx_print, NULL);
-	pthread_mutex_init(&(*args)->mtx_vars1, NULL);
-	pthread_mutex_init(&(*args)->mtx_vars2, NULL);
+	pthread_mutex_init(&(*args)->mtx_last_eat, NULL);
+	pthread_mutex_init(&(*args)->mtx_philo_done, NULL);
 	pthread_mutex_init(&(*args)->mtx_flag, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:28:27 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/22 16:11:01 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/23 00:05:02 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct s_args
 	int						nbr_eats;
 	int						flag;
 	pthread_mutex_t			mtx_print;
-	pthread_mutex_t			mtx_vars1;
-	pthread_mutex_t			mtx_vars2;
+	pthread_mutex_t			mtx_last_eat;
+	pthread_mutex_t			mtx_philo_done;
 	pthread_mutex_t			mtx_flag;
 	unsigned long long		tita0;
 }							t_args;
@@ -40,7 +40,6 @@ typedef struct s_philos
 	unsigned long long		last_eat;
 	pthread_t				thread;
 	pthread_mutex_t			fork;
-	bool					died;
 	t_args					*args;
 	struct s_philos			*next;
 }							t_philos;
@@ -48,18 +47,8 @@ typedef struct s_philos
 //-----------------------------MANDATORY_PARSSING--------------------------//
 int					ft_error(int argc, char **argv);
 int					ft_isdigit(char c);
-int					ft_nbr_arg(char **av);
-char				*ft_strchr(const char *s, int c);
-char				**freeme(char **s, size_t i);
-char				**ft_split(char const *s, char c);
-char				*ft_strjoin(char *s1, char const *s2);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
 long				ft_atoi(const char *str);
 long				ft_max(char **av);
-void				*ft_memcpy(void *dst, const void *src, size_t n);
-void				*ft_memmove(void *dst, const void *src, size_t len);
-size_t				ft_strlen(const char *str);
-size_t				lignes(const char *s, char c);
 
 //------------------------------MANDATORY---------------------------------//
 void				ft_philo(t_philos **group, t_args *args);
