@@ -6,26 +6,21 @@
 #    By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/08 16:01:19 by azgaoua           #+#    #+#              #
-#    Updated: 2023/10/09 14:26:15 by azgaoua          ###   ########.fr        #
+#    Updated: 2023/10/23 18:34:00 by azgaoua          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-# BNS_NAME = fdf_bonus
 
-OBJS = main.o parss.o parss2.o parss3.o
-# BNSOBJS = fdf_bonus.o main_bonus.o maps_reader_bonus.o draw_things_bonus.o \
-			rotation_bonus.o
+OBJS = philosophers.o parss.o tools.o tools2.o
 
-FILES = main.c parss.c parss2.c parss3.c
-# BNSFILES = fdf_bonus.c main_bonus.c maps_reader_bonus.c draw_things_bonus.c \
-			rotation_bonus.c
+FILES = philosophers.c parss.c tools.c tools2.c
 
 CC = cc
 
 RM = rm -rf
 
-FLGS = -Wall -Wextra -Werror 
+FLGS = -Wall -Wextra -Werror
 
 all :  $(NAME)
 
@@ -33,25 +28,23 @@ all :  $(NAME)
 	@$(CC) $(FLGS) -c $< -o $@
 
 $(NAME) :  $(OBJS)
+	@echo " _____ _   _ _                 _        \n\
+	|  _  | |_|_| |___ ___ ___ ___| |_ ___ ___ ___  \n\
+	|   __|   | | | . |_ -| . | . |   | -_|  _|_ -|  \n\
+	|__|  |_|_|_|_|___|___|___|  _|_|_|___|_| |___|   \n\
+	                      	  |_|                      \n"
 	@echo "------>making the PHILO<------"
 	$(CC) $(FLGS) $(OBJS) -o $(NAME)
 	@echo "--------->PHILO Done<---------"
 
 bonus :  $(BNS_NAME)
 
-# $(BNS_NAME): $(BNSOBJS)
-#	@echo "----->making the FDF_BONUS<-----"
-#	@cd libft && make && make clean
-#	@cd printo && make && make clean
-#	@$(CC) $(FLGS) $(BNSOBJS) libft/libft.a printo/myprintf.a -lmlx -framework OpenGL -framework AppKit  -o $(BNS_NAME)
-#	@echo "----->FDF_BONUS Done<-----"
-
 clean:
-	@echo " clean all this FILES if exist: $(OBJS)"
+	@echo " clean all the *.o FILES"
 	@$(RM) $(OBJS)
 
 fclean:  clean
-	@echo "+ that --> $(NAME)"
+	@echo " clean --> $(NAME)"
 	@$(RM) $(NAME)
 
 re: fclean all

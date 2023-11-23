@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azgaoua <azgaoua@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 13:27:53 by azgaoua           #+#    #+#             */
-/*   Updated: 2023/10/08 17:14:44 by azgaoua          ###   ########.fr       */
+/*   Updated: 2023/10/22 22:15:52 by azgaoua          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int ft_isdigit(char c)
+int	ft_isdigit(char c)
 {
-	return(c >= '0' && c <= '9');
+	return (c >= '0' && c <= '9');
 }
 
 int	ft_error(int argc, char **argv)
@@ -24,7 +24,7 @@ int	ft_error(int argc, char **argv)
 
 	i = 1;
 	if (argc < 2)
-		exit(0);
+		return (0);
 	while (i < argc)
 	{
 		j = 0;
@@ -50,9 +50,7 @@ long	ft_atoi(const char *str)
 {
 	int		i;
 	long	retu;
-	int		s;
 
-	s = 1;
 	i = 0;
 	retu = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
@@ -64,57 +62,36 @@ long	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9' && str[i] != '\0')
 	{
 		retu = (retu * 10) + str[i] - 48;
-		if (retu * s > 2147483647)
+		if (retu > 2147483647)
 			return (4294967296);
-		else if (retu * s < -2147483648)
+		else if (retu < -2147483648)
 			return (4294967296);
 		i++;
 	}
-	return ((int )(retu * s));
+	return (retu);
 }
 
-int	ft_errors(int ac, char **av)
+int	main(int ac, char **av)
 {
-	int	k;
+	t_philos	*group;
+	t_args		*args;
 
-	k = 1;
-	while (av[k] != NULL && k < ac)
+	args = NULL;
+	group = NULL;
+	if (ac - 1 == 4 || ac - 1 == 5)
 	{
-		if (ft_empty_arg(av[k]) == 0)
-			return (1);
-		k++;
-	}
-	return (0);
-}
-
-int main (int ac, char **av)
-{
-	int		i;
-	char	*string;
-	char	**arrtwo;
-
-	i = 0;
-	if (ft_error(ac, av) == 0 || ft_errors(ac, av) == 1)
-		return (write(2, "Error\n", 6), 1);
-	string = ft_trance(ac, av);
-	arrtwo = ft_split(string, ' ');
-	free(string);
-	string = NULL;
-	if (ft_max(arrtwo) == 4294967296)
-	{
-		write(2, "Error\n", 6);
-		exit(1);
-	}
-	if (ft_nbr_arg(arrtwo) == 5 || ft_nbr_arg(arrtwo) == 6)
-	{
-		while (arrtwo[i])
-		{
-			printf("%ld ", ft_atoi(arrtwo[i]));
-			i++;
-		}
-		printf("\n");
+		if (ft_error(ac, av) == 0 || ft_max(++av) == 4294967296)
+			return (write(2, "Error\n", 6), 1);
+		args = (t_args *)malloc(sizeof(t_args));
+		if (!args)
+			return (0);
+		ft_init_args(&args, ac, av);
+		if (args->nbr_of_philos == 0 || args->nbr_of_philos >= 250)
+			return (printf("the number of philos is not supported!!\n"), \
+					free(args), 0);
+		ft_philo(&group, args);
 	}
 	else
-		printf("the number of args is fauls !!\n");
+		return (printf("please enter 4 or 5 args!!\n"), 0);
 	return (0);
 }
